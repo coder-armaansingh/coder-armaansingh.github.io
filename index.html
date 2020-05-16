@@ -78,7 +78,9 @@
                 "Or <h3>Lastly, would you like to forget that this ever happened and never discuss in future?</h3>"
             ]
         ]
-        let curPage = 0
+        let curPage = sessionStorage && sessionStorage.getItem && Number(sessionStorage.getItem("curPage")) || 0
+        console.log("curPage")
+        console.log(curPage)
         let myId = "-1"
         function showPage(pageNo) {
             const root = document.getElementById("root")
@@ -103,10 +105,6 @@
             root.appendChild(ul)
         }
         function gonext() {
-            if (!checkPartnerId()) {
-                window.alert("Can't move forward without partner ID/Wrong Id")
-                return
-            }
             const root = document.getElementById("root")
             root.innerHTML = ""
             showInfo()
@@ -117,6 +115,13 @@
             document.getElementById("click").style.display = curPage >= list.length - 1 ? "none" : ""
             if (curPage >= list.length - 1) {
                 window.alert("Congrats! This next will be last level. You played well. Go have fun ;-)")
+            }
+            if (sessionStorage && sessionStorage.setItem) {
+                sessionStorage.setItem("curPage", curPage)
+            }
+            if (!checkPartnerId()) {
+                window.alert("Can't move forward without partner ID/Wrong Id")
+                return
             }
             ++curPage
         }
@@ -137,6 +142,13 @@
             document.getElementById("wrap").style.display = "block"
             document.getElementById("level").style.display = "block"
         }
+        function reset() {
+            if (sessionStorage && sessionStorage.removeItem) {
+                sessionStorage.removeItem("curPage")
+            }
+            curPage = 0
+            window.location.reload()
+        }
         function showDifficultyLevel() {
             const lvl = [
                 "Very Easy",
@@ -151,6 +163,12 @@
                 "Extreme"
             ]
             document.getElementById("level").innerHTML = ` Difficulty Level: ${lvl[curPage]}`
+            if (curPage > 1) {
+                document.getElementById("outer").style.display = "block"
+            } else {
+                document.getElementById("outer").style.display = "none"
+
+            }
         }
         function checkPartnerId() {
             const uid = document.getElementById("uid").value
@@ -207,8 +225,13 @@
 
         </div>
     </div>
-    <div id="level" style="display: none; background: azure;" class="p-3 m-3 border border-warning">
+    <div style="background: azure; display: none" class="p-3 m-3 border border-warning" id="outer">
+        <div id="level">
 
+        </div>
+        <div class="text-right">
+            <button onclick="reset()" class="btn btn-outline">reset game</button>
+        </div>
     </div>
     <script>
         document.getElementById("wrap").style.display = "none"
@@ -217,12 +240,12 @@
     <div id="form1" class="p-3 m-3 border border-warning rounded" style="background: aliceblue">
         <p>This quarantine play a virtual game with your partner and have fun</p>
         <div>Enter few details: </div>
-        <input type="text" placeholder="Enter Name" id="name" class="form-control" /><br/>
+        <input type="text" placeholder="Enter Name" id="name" class="form-control" /><br />
         <input type="text" placeholder="Enter Partner Name" id="pname" class="form-control" />
         <input type="radio" name="sex" />&nbsp;Male<br />
         <input type="radio" name="sex" />&nbsp;Female<br />
         <input type="radio" name="sex" />&nbsp;Other<br />
-        <button onclick="submit()" class="btn btn-primary text-right">Submit</button><br /><br/>
+        <button onclick="submit()" class="btn btn-primary text-right">Submit</button><br /><br />
         <p>Only proceed if you are 18+. Some questions might be prohibited in your area.</p>
     </div>
     <div id="rules" class="p-3 m-3 border border-warning rounded" style="background: azure;">
@@ -236,6 +259,11 @@
             <li>Give the id in your screen to your partner to move forward to next levels or you will be blocked.<br />
         </ul>
     </div>
+    <script>
+        if (curPage > 1) {
+            submit()
+        }
+    </script>
 </body>
 
 </html>
