@@ -70,11 +70,11 @@
                 "Have you ever tried sexting or done video sex?",
             ],
             [
-                "Would you like to flash to your current player?",
+                "Would you like to go on a date with partner?",
+                "Would you like to start something new with current player?",
+                "Would you like to flash to your partner?",
                 "Would you like to exchange nudes with current player?",
-                "Would you like to sext with current player?",
-                "Would you like to video sex with current player?",
-                "Would you like to have start something new with current player?",
+                "Would you like to sext or video sex with current player?",
                 "Or <h3>Lastly, would you like to forget that this ever happened and never discuss in future?</h3>"
             ]
         ]
@@ -90,6 +90,11 @@
             const root = document.getElementById("root")
             const ul = document.createElement("ol")
             const ques = list[pageNo]
+            if (pageNo == 5) {
+                const dd = document.createElement("div")
+                dd.innerHTML = "Note: Questions will be more aggressive from this level."
+                root.appendChild(dd)
+            }
             for (let i = 0; i < ques.length; ++i) {
                 const li = document.createElement("li")
                 li.innerHTML = ques[i]
@@ -111,7 +116,7 @@
             console.log(curPage, list.length)
             document.getElementById("click").style.display = curPage >= list.length - 1 ? "none" : ""
             if (curPage >= list.length - 1) {
-                window.alert("Congrats! This next will be last level. Go have fun ;-)")
+                window.alert("Congrats! This next will be last level. You played well. Go have fun ;-)")
             }
             ++curPage
         }
