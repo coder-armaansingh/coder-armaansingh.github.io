@@ -41,7 +41,13 @@
                 "What are your turn offs?",
                 "How many piercings/tattoo you have?",
                 "What do you wear to bed?",
-
+            ],
+            [
+                "Have you kissed a person of same sex?",
+                "Have you kissed a person of opposide sex?",
+                "Have you ever made out with someone?",
+                "Have you ever stalked someone?",
+                "Have you ever been to sites like omegle, shagle, coomeet?",
             ],
             [
                 "Are you a virgin?",
@@ -76,6 +82,7 @@
             ]
         ]
         let curPage = 0
+        let myId = "-1"
         function showPage(pageNo) {
             const root = document.getElementById("root")
             const title = document.createElement("div")
@@ -116,8 +123,9 @@
             root.innerHTML = ""
             const div = document.createElement("div")
             const name = document.getElementById("name") && document.getElementById("name").value || "there"
+            myId = ids[Math.ceil(Math.random() * 500) % 499]
             div.innerHTML = `
-                Hi ${name}. Your Id is ${ids[Math.ceil(Math.random() * 500) % 499]}
+                Hi ${name}. Your Id is ${myId}
             `
             root.appendChild(div)
         }
@@ -135,6 +143,7 @@
                 "Easy",
                 "Medium",
                 "Medium",
+                "Medium",
                 "Difficult",
                 "Hard",
                 "Extreme"
@@ -144,6 +153,9 @@
         function checkPartnerId() {
             const uid = document.getElementById("uid").value
             document.getElementById("uid").value = ""
+            if (uid == myId) {
+                return false
+            }
             if (ids.indexOf(Number(uid)) >= 0 || curPage === 0) {
                 ids[ids.indexOf(Number(uid))] = Math.ceil(Math.random() * 100000)
                 return true
